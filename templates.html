@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notion 模板 — MyNoway</title>
+  <link rel="icon" type="image/png" href="MN logo small副本.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #2c1f1a;
+      --white: #fffdf9;
+      --gray-50: #fdf6f0;
+      --gray-100: #f5ebe2;
+      --gray-200: #e8d5c8;
+      --gray-400: #b89f94;
+      --gray-600: #7a6460;
+      --accent: #c07b74;
+      --accent-light: #d9a49e;
+      --accent-dark: #a05850;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(255,253,249,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav ul a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--black); }
+    nav ul a.active { color: var(--accent); font-weight: 600; }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 120px 5% 60px;
+      text-align: center;
+      background: linear-gradient(160deg, #fffdf9 0%, #fdf0ea 45%, #fce8e6 100%);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--gray-100);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .page-sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 40px 5% 0;
+      background: var(--white);
+    }
+
+    .filter-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 999px;
+      padding: 0.4rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* ── GRID ── */
+    .grid-section {
+      padding: 40px 5% 100px;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .template-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .template-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARD ── */
+    .template-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .template-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: 0 8px 32px rgba(192,123,116,0.14);
+      transform: translateY(-4px);
+    }
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: var(--gray-100);
+      display: block;
+    }
+
+    .card-image-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--gray-400);
+    }
+
+    .card-body {
+      padding: 1.25rem 1.4rem 1.5rem;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+      background: var(--gray-100);
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-price {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .card-price.free {
+      color: #5a8a6a;
+    }
+
+    .card-arrow {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .template-card:hover .card-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ── STATES ── */
+    .state-container {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 0;
+      color: var(--gray-400);
+    }
+
+    .state-container .state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .state-container p {
+      font-size: 0.95rem;
+    }
+
+    .skeleton-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--gray-100);
+    }
+
+    .skeleton-body { padding: 1.25rem 1.4rem 1.5rem; }
+
+    .skeleton-line {
+      height: 12px;
+      background: var(--gray-100);
+      border-radius: 6px;
+      margin-bottom: 0.6rem;
+    }
+
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.medium { width: 70%; }
+    .skeleton-line.full { width: 100%; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, #c87b72, #a05850);
+      color: rgba(255,255,255,0.8);
+      padding: 3rem 5% 2rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.04em;
+    }
+
+    .footer-logo span { color: rgba(255,255,255,0.7); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .footer-social a {
+      width: 38px; height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .footer-social a:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg { width: 18px; height: 18px; fill: currentColor; }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .footer-social { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">My<span>Noway</span></a>
+  <ul>
+    <li><a href="index.html#services">服務</a></li>
+    <li><a href="index.html#how">流程</a></li>
+    <li><a href="index.html#why">為什麼選我們</a></li>
+    <li><a href="templates.html" class="active">模板</a></li>
+    <li><a href="https://lin.ee/Lxmw7oD2" target="_blank" rel="noopener" class="nav-cta">免費諮詢</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="section-label">Notion 模板</div>
+  <h1 class="page-title">精選模板，直接套用</h1>
+  <p class="page-sub">由 MyNoway 設計，開箱即用的 Notion 系統模板，幫你的團隊快速上手</p>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-category="all">全部</button>
+</div>
+
+<!-- GRID -->
+<div class="grid-section">
+  <div class="template-grid" id="templateGrid">
+    <!-- 載入中骨架 -->
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line medium"></div>
+        <div class="skeleton-line full"></div>
+      </div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line medium"></div>
+        <div class="skeleton-line full"></div>
+      </div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line medium"></div>
+        <div class="skeleton-line full"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">My<span>Noway</span></div>
+    <div class="footer-social">
+      <a href="https://lin.ee/Lxmw7oD2" target="_blank" rel="noopener" aria-label="LINE">
+        <svg viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.121.303.079.771.038 1.087l-.164 1.026c-.045.303-.24 1.193 1.049.649 1.291-.542 6.916-4.104 9.437-7.023C23.178 14.282 24 12.421 24 10.304zm-17.022 2.818h-2.38a.633.633 0 01-.633-.633V8.108a.633.633 0 011.266 0v3.748h1.747a.633.633 0 010 1.266zm1.997 0a.633.633 0 01-1.266 0V8.108a.633.633 0 011.266 0v5.014zm4.872 0a.634.634 0 01-.507-.254l-2.44-3.317v2.938a.633.633 0 01-1.266 0V8.108a.633.633 0 01.507-.254.631.631 0 01.507.254l2.44 3.317V8.108a.633.633 0 011.266 0v5.014a.634.634 0 01-.507.254zm4.153-3.122a.633.633 0 010 1.266H16.25v1.222a.633.633 0 01-1.266 0V8.108a.633.633 0 01.633-.633H18a.633.633 0 010 1.266h-1.75v1.259H18z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/mynoway_/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98C.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <a href="https://www.threads.net/@mynoway_?hl=zh-tw" target="_blank" rel="noopener" aria-label="Threads">
+        <svg viewBox="0 0 24 24"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.852 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.781 3.631 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 013.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.583-1.313-.879-2.376-.884h-.068c-.837 0-1.54.208-2.082.619-.69.52-1.095 1.296-1.172 2.264l-2.052-.17c.113-1.518.752-2.858 1.808-3.67.879-.668 1.994-1.02 3.232-1.02h.105c1.668.007 3.016.538 3.905 1.537.826.93 1.263 2.254 1.3 3.934 1.148.614 2.031 1.43 2.6 2.726.879 2.011.819 4.856-1.457 7.089C17.18 23.256 15.147 23.98 12.186 24zm.984-11.453c-.763 0-1.494.139-2.055.44-.537.292-.82.717-.791 1.232.026.48.282.884.72 1.165.514.333 1.22.49 2.074.441 1.057-.057 1.828-.48 2.292-1.253.365-.609.564-1.42.584-2.39a11.99 11.99 0 00-2.824-.635z"/></svg>
+      </a>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html#services">服務</a></li>
+      <li><a href="index.html#how">流程</a></li>
+      <li><a href="index.html#pricing">詢價</a></li>
+      <li><a href="mailto:hello@mynoway.com">聯絡我們</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">© 2025 MyNoway. 幫你的團隊找到最好的路。</p>
+</footer>
+
+<script>
+  let allTemplates = [];
+  let activeCategory = 'all';
+
+  async function loadTemplates() {
+    try {
+      const res = await fetch('/api/templates');
+      if (!res.ok) throw new Error('API error');
+      allTemplates = await res.json();
+      buildFilterTabs();
+      renderCards('all');
+    } catch (err) {
+      document.getElementById('templateGrid').innerHTML = `
+        <div class="state-container">
+          <div class="state-icon">⚠️</div>
+          <p>模板載入失敗，請重新整理頁面</p>
+        </div>`;
+    }
+  }
+
+  function buildFilterTabs() {
+    const categories = ['all', ...new Set(allTemplates.flatMap(t => t.categories))];
+    const bar = document.getElementById('filterBar');
+    bar.innerHTML = categories.map(cat => `
+      <button class="filter-btn${cat === 'all' ? ' active' : ''}" data-category="${cat}">
+        ${cat === 'all' ? '全部' : cat}
+      </button>
+    `).join('');
+
+    bar.addEventListener('click', e => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.dataset.category;
+      renderCards(activeCategory);
+    });
+  }
+
+  function renderCards(category) {
+    const grid = document.getElementById('templateGrid');
+    const filtered = category === 'all'
+      ? allTemplates
+      : allTemplates.filter(t => t.categories.includes(category));
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="state-container">
+          <div class="state-icon">📭</div>
+          <p>這個分類目前還沒有模板</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(t => {
+      const imageHtml = t.image
+        ? `<img class="card-image" src="${t.image}" alt="${t.name}" loading="lazy">`
+        : `<div class="card-image-placeholder">📄</div>`;
+
+      const tagsHtml = t.categories.map(c => `<span class="card-tag">${c}</span>`).join('');
+
+      const priceClass = t.price === '免費' || t.price.toLowerCase() === 'free' ? 'free' : '';
+
+      return `
+        <a class="template-card" href="${t.link || '#'}" target="_blank" rel="noopener">
+          ${imageHtml}
+          <div class="card-body">
+            <div class="card-tags">${tagsHtml}</div>
+            <div class="card-title">${t.name}</div>
+            <div class="card-footer">
+              <span class="card-price ${priceClass}">${t.price || '—'}</span>
+              <span class="card-arrow">前往取得 →</span>
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+  }
+
+  loadTemplates();
+</script>
+
+</body>
+</html>
