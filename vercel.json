@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/templates", "destination": "/templates.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
+}
