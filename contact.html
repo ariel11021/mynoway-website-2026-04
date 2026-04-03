@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>填寫詢價表單 — MyNoway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #2c1f1a;
+      --white: #fffdf9;
+      --gray-50: #fdf6f0;
+      --gray-100: #f5ebe2;
+      --gray-200: #e8d5c8;
+      --gray-400: #b89f94;
+      --gray-600: #7a6460;
+      --accent: #c07b74;
+      --accent-light: #d9a49e;
+      --accent-dark: #a05850;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(255,253,249,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-back {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--black); }
+
+    /* MAIN */
+    main {
+      padding-top: 64px;
+      min-height: 100vh;
+      background: linear-gradient(160deg, #fffdf9 0%, #fdf0ea 45%, #fce8e6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 60px 5% 40px;
+      max-width: 640px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--gray-100);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .page-sub {
+      font-size: 1rem;
+      color: var(--gray-600);
+    }
+
+    /* FORM CONTAINER */
+    .form-wrapper {
+      width: 100%;
+      max-width: 860px;
+      padding: 0 5% 80px;
+    }
+
+    .form-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(44,31,26,0.07);
+    }
+
+    .form-card iframe {
+      display: block;
+      width: 100%;
+      height: 700px;
+      border: none;
+    }
+
+    @media (max-width: 600px) {
+      .form-card iframe { height: 800px; }
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-200);
+      background: var(--white);
+    }
+
+    footer a {
+      color: var(--gray-600);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .form-card iframe { height: 800px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">My<span>Noway</span></a>
+  <a href="index.html" class="nav-back">← 回首頁</a>
+</nav>
+
+<main>
+  <div class="page-header">
+    <div class="section-label">聯絡我們</div>
+    <h1 class="page-title">告訴我們你的需求<br>我們來為你規劃</h1>
+    <p class="page-sub">填寫以下表單，我們會在 1–2 個工作天內與你聯繫，並提供專屬方案建議。</p>
+  </div>
+
+  <div class="form-wrapper">
+    <div class="form-card">
+      <iframe src="https://arielchen1021.notion.site/ebd//2b1a2c183e3380bf8a24fa76974436a9" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 MyNoway．<a href="index.html">回首頁</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyNoway — 為你的團隊打造專屬 Notion 系統</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #2c1f1a;
+      --white: #fffdf9;
+      --gray-50: #fdf6f0;
+      --gray-100: #f5ebe2;
+      --gray-200: #e8d5c8;
+      --gray-400: #b89f94;
+      --gray-600: #7a6460;
+      --accent: #c07b74;
+      --accent-light: #d9a49e;
+      --accent-dark: #a05850;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(255,253,249,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav ul a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      background: linear-gradient(160deg, #fffdf9 0%, #fdf0ea 45%, #fce8e6 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(192,123,116,0.12) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(192,123,116,0.08) 0%, transparent 70%);
+      bottom: -50px; left: -50px;
+      pointer-events: none;
+    }
+
+    .hero-inner { max-width: 780px; position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(192,123,116,0.12);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gray-600);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--black);
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1.5px solid var(--gray-200);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-top: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--black);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      font-weight: 500;
+      margin-top: 0.1rem;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: var(--gray-200);
+      align-self: stretch;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 5%; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .center { text-align: center; }
+    .center .section-sub { margin: 0 auto; }
+
+    /* ── LOGOS ── */
+    #logos {
+      padding: 40px 5%;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .logos-label {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-chip {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-400);
+      letter-spacing: -0.02em;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--white); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .service-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .service-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: 0 8px 32px rgba(192,123,116,0.12);
+      transform: translateY(-3px);
+    }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--gray-50); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3.5rem;
+      position: relative;
+    }
+
+    .step {
+      position: relative;
+      padding: 1.75rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+    }
+
+    .step-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gray-200);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      font-size: 0.875rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    /* ── WHY ── */
+    #why { background: var(--white); }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 0;
+    }
+
+    .why-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .why-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .why-check {
+      width: 24px; height: 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .why-text h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .why-text p {
+      font-size: 0.875rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    .why-visual {
+      background: linear-gradient(135deg, #fdf0ea, #fce8e6);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 1px solid rgba(192,123,116,0.18);
+    }
+
+    .notion-mockup {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .mockup-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-left: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .mockup-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-radius: 6px;
+      padding-left: 0.5rem;
+      transition: background 0.15s;
+    }
+
+    .mockup-row:hover { background: var(--gray-50); }
+
+    .mockup-icon { font-size: 1rem; }
+
+    .mockup-text {
+      flex: 1;
+    }
+
+    .mockup-line {
+      height: 8px;
+      background: var(--gray-100);
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .mockup-line.short { width: 60%; }
+    .mockup-line.medium { width: 80%; }
+
+    .mockup-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .tag-green { background: #f0ede6; color: #7a6a50; }
+    .tag-blue { background: #fce8e6; color: #a05850; }
+    .tag-purple { background: #fdf0ea; color: #8a5a52; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--black); color: var(--white); }
+
+    #testimonials .section-title { color: var(--white); }
+    #testimonials .section-label { color: var(--accent-light); }
+    #testimonials .section-sub { color: #a1a1a1; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .testimonial {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .testimonial:hover { border-color: var(--accent); }
+
+    .stars {
+      color: #e8a87c;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .testimonial-text {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #d1d1d1;
+      margin-bottom: 1.25rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .author-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .author-role {
+      font-size: 0.775rem;
+      color: #6b6b6b;
+    }
+
+    /* ── PRICING ── */
+    #pricing { background: var(--gray-50); }
+
+    .enquiry-box {
+      max-width: 720px;
+      margin: 3.5rem auto 0;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(44,31,26,0.06);
+    }
+
+    .enquiry-features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem 1.5rem;
+      list-style: none;
+    }
+
+    .enquiry-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+    }
+
+    .enquiry-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn-enquiry {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.9rem 2.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-enquiry:hover { background: var(--accent); }
+
+    .enquiry-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-top: -1rem;
+    }
+
+    @media (max-width: 600px) {
+      .enquiry-box { padding: 2rem 1.5rem; }
+    }
+
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, #c87b72, #a05850);
+      color: rgba(255,255,255,0.8);
+      padding: 3rem 5% 2rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.04em;
+    }
+
+    .footer-logo span { color: rgba(255,255,255,0.7); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .why-visual { order: -1; }
+
+      .stat-divider { display: none; }
+
+      .footer-inner { flex-direction: column; text-align: center; }
+
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">My<span>Noway</span></a>
+  <ul>
+    <li><a href="#services">服務</a></li>
+    <li><a href="#how">流程</a></li>
+    <li><a href="#why">為什麼選我們</a></li>
+    <li><a href="#pricing">詢價</a></li>
+    <li><a href="contact.html" class="nav-cta">免費諮詢</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ Notion 系統建置專家</div>
+    <h1>讓你的團隊用<br/><span class="highlight">Notion 高效運作</span></h1>
+    <p class="hero-sub">
+      MyNoway 幫助中小企業與團隊，從零打造專屬的 Notion 工作系統——
+      告別混亂的資料夾、重複的工作、找不到的文件。
+    </p>
+    <div class="hero-actions">
+      <a href="contact.html" class="btn-primary">免費預約諮詢</a>
+      <a href="#services" class="btn-secondary">了解服務內容</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">80+</div>
+        <div class="stat-label">完成專案</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">95%</div>
+        <div class="stat-label">客戶滿意度</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">3x</div>
+        <div class="stat-label">平均效率提升</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div id="logos">
+  <p class="logos-label">受到各行各業的信任</p>
+  <div class="logos-row">
+    <span class="logo-chip">電商品牌</span>
+    <span class="logo-chip">設計工作室</span>
+    <span class="logo-chip">科技新創</span>
+    <span class="logo-chip">教育機構</span>
+    <span class="logo-chip">顧問公司</span>
+    <span class="logo-chip">媒體內容</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="center">
+    <div class="section-label">服務內容</div>
+    <h2 class="section-title">我們為你打造什麼</h2>
+    <p class="section-sub">從需求訪談到系統上線，全程陪你走完每一步</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <h3>專案管理系統</h3>
+      <p>建立清晰的任務追蹤、里程碑管理，讓每個人都知道自己該做什麼、進度到哪。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📚</div>
+      <h3>知識庫 & Wiki</h3>
+      <p>把公司 SOP、教育訓練、產品文件全部整合，新人 onboarding 再也不是難題。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗂️</div>
+      <h3>客戶 & CRM 管理</h3>
+      <p>追蹤潛在客戶、合約進度、跟進記錄，讓業務流程透明、有系統。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>數據儀表板</h3>
+      <p>用 Notion Database 打造即時報表，讓老闆與主管一眼看懂團隊運作狀況。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔗</div>
+      <h3>工具整合串接</h3>
+      <p>將 Notion 與 Slack、Gmail、行事曆等工具串連，打造無縫的自動化工作流。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎓</div>
+      <h3>教育訓練 & 上線支援</h3>
+      <p>系統建好不等於完成——我們提供完整的使用教學與 30 天上線陪跑服務。</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="center">
+    <div class="section-label">合作流程</div>
+    <h2 class="section-title">四步驟，輕鬆上手</h2>
+    <p class="section-sub">簡單透明的流程，讓你安心把系統交給我們</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>免費諮詢</h3>
+      <p>30 分鐘線上會議，了解你的業務痛點與現有工作流，確認需求。</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>系統規劃</h3>
+      <p>提出客製化的 Notion 架構提案，包含資料庫設計、頁面結構與自動化規劃。</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>建置開發</h3>
+      <p>1–2 週快速建置，過程中持續溝通，確保系統符合你的實際需求。</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>交付 & 陪跑</h3>
+      <p>系統交付後提供教學影片、文件，並陪跑 30 天確保團隊順利上手。</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-label">為什麼選我們</div>
+      <h2 class="section-title">不只是 Notion 顧問，<br/>是你的系統夥伴</h2>
+      <ul class="why-list">
+        <li class="why-item">
+          <div class="why-check">✓</div>
+          <div class="why-text">
+            <h4>深度了解你的業務</h4>
+            <p>不套模板、不走流程，每個系統都從你的業務邏輯出發。</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-check">✓</div>
+          <div class="why-text">
+            <h4>交付即可使用</h4>
+            <p>系統建好就能直接使用，不需要技術背景，任何人都能上手。</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-check">✓</div>
+          <div class="why-text">
+            <h4>長期維護支援</h4>
+            <p>業務成長、需求改變時，我們隨時幫你調整與擴充系統。</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-check">✓</div>
+          <div class="why-text">
+            <h4>快速有效率</h4>
+            <p>大多數專案在 2 週內完成，讓你盡快享受系統帶來的效益。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="why-visual">
+      <div class="notion-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#ff5f57"></div>
+          <div class="mockup-dot" style="background:#ffbd2e"></div>
+          <div class="mockup-dot" style="background:#28c840"></div>
+          <span class="mockup-title">📋 Q2 專案追蹤</span>
+        </div>
+        <div class="mockup-row">
+          <span class="mockup-icon">🛒</span>
+          <div class="mockup-text">
+            <div class="mockup-line medium"></div>
+            <div class="mockup-line short"></div>
+          </div>
+          <span class="mockup-tag tag-green">進行中</span>
+        </div>
+        <div class="mockup-row">
+          <span class="mockup-icon">🎨</span>
+          <div class="mockup-text">
+            <div class="mockup-line short"></div>
+            <div class="mockup-line medium"></div>
+          </div>
+          <span class="mockup-tag tag-blue">審核中</span>
+        </div>
+        <div class="mockup-row">
+          <span class="mockup-icon">📣</span>
+          <div class="mockup-text">
+            <div class="mockup-line medium"></div>
+            <div class="mockup-line short"></div>
+          </div>
+          <span class="mockup-tag tag-purple">待開始</span>
+        </div>
+        <div class="mockup-row">
+          <span class="mockup-icon">📦</span>
+          <div class="mockup-text">
+            <div class="mockup-line short"></div>
+            <div class="mockup-line medium"></div>
+          </div>
+          <span class="mockup-tag tag-green">已完成</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="center">
+    <div class="section-label">客戶回饋</div>
+    <h2 class="section-title">他們這樣說</h2>
+    <p class="section-sub">真實的案例，真實的改變</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        「原本團隊的資料散落在各個 Google Drive 和 Line 群組，導入 MyNoway 的 Notion 系統後，現在每個人都能快速找到需要的資料，效率提升非常明顯。」
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">林</div>
+        <div>
+          <div class="author-name">林小姐</div>
+          <div class="author-role">設計工作室 創辦人</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        「新人 onboarding 從以前的兩週縮短到三天，因為所有 SOP 都整理好了。這個投資真的非常值得，省下來的時間遠超過費用。」
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">陳</div>
+        <div>
+          <div class="author-name">陳先生</div>
+          <div class="author-role">電商品牌 營運長</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        「MyNoway 不只幫我建系統，還真的很有耐心地教我們怎麼用。現在全公司 15 人都在用同一套系統，溝通變得超順暢。」
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">王</div>
+        <div>
+          <div class="author-name">王小姐</div>
+          <div class="author-role">顧問公司 專案經理</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="center">
+    <div class="section-label">服務詢價</div>
+    <h2 class="section-title">每個專案都是客製的</h2>
+    <p class="section-sub">告訴我們你的需求，我們為你量身規劃，提供最適合的解法</p>
+  </div>
+  <div class="enquiry-box">
+    <ul class="enquiry-features">
+      <li>Notion 系統建置</li>
+      <li>需求訪談與流程梳理</li>
+      <li>自動化工作流設定</li>
+      <li>第三方工具串接</li>
+      <li>教學文件與影片</li>
+      <li>上線後陪跑支援</li>
+    </ul>
+    <a href="contact.html" class="btn-enquiry">填寫需求表單，免費獲得報價 →</a>
+    <p class="enquiry-note">填寫只需 3 分鐘，1–2 個工作天內回覆</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">My<span>Noway</span></div>
+    <ul class="footer-links">
+      <li><a href="#services">服務</a></li>
+      <li><a href="#how">流程</a></li>
+      <li><a href="#pricing">詢價</a></li>
+      <li><a href="mailto:hello@mynoway.com">聯絡我們</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">© 2025 MyNoway. 幫你的團隊找到最好的路。</p>
+</footer>
+
+</body>
+</html>
